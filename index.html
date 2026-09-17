@@ -6,7 +6,6 @@
     <title>ระบบจัดการหลังบ้าน Monali</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- โหลด Supabase Client SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
@@ -29,7 +28,7 @@
                         }
                     },
                     boxShadow: {
-                        'cute': '0 4px 14px 0 rgba(236, 72, 153, 0.1)',
+                        'cute': '0 4px 14px 0 rgba(236, 72, 153, 0.12)',
                         'soft': '0 2px 10px 0 rgba(0, 0, 0, 0.03)',
                         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.1)',
                     }
@@ -74,10 +73,10 @@
             animation: fadeOut 0.3s ease forwards;
         }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
         .service-btn {
             transition: all 0.3s ease;
@@ -85,7 +84,7 @@
         .service-btn.active {
             background: white;
             color: #ec4899;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
             font-weight: 600;
         }
         .service-btn.active.yt {
@@ -99,13 +98,13 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3">
-                    <div class="relative group cursor-pointer shrink-0" onclick="document.getElementById('logoInput').click()" title="เปลี่ยนโลโก้ร้าน">
+                    <div class="relative group cursor-pointer shrink-0" onclick="triggerLogoUpload()" title="เปลี่ยนโลโก้ร้าน">
                         <img id="storeLogo" src="https://placehold.co/100x100/fce7f3/ec4899?text=Logo" alt="Logo" class="w-11 h-11 rounded-2xl object-cover shadow-cute border-2 border-pink-100">
                         <div class="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <i class="fa-solid fa-camera text-white text-xs"></i>
                         </div>
                     </div>
-                    <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
+                    <input type="file" id="logoInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleLogoUpload(event)">
                     <span class="font-bold text-base sm:text-xl text-gray-800 tracking-tight">ระบบจัดการ <span class="text-pink-500">Monali</span></span>
                 </div>
                 <div class="flex items-center gap-2 sm:gap-3">
@@ -117,7 +116,7 @@
                     </button>
                     <button onclick="openAdminModal()" class="w-10 h-10 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-pink-500 hover:border-pink-200 hover:bg-pink-50 transition-all flex items-center justify-center shadow-soft shrink-0 relative" title="จัดการแอดมิน">
                         <i class="fa-solid fa-shield-halved"></i>
-                        <span id="adminBadgeDot" class="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-pink-500 hidden"></span>
+                        <span id="adminBadgeDot" class="absolute top-2 right-2 w-2 h-2 rounded-full bg-pink-500 hidden"></span>
                     </button>
                     <button id="addAccountBtn" onclick="openAddAccountModal()" class="bg-pink-400 hover:bg-pink-500 text-white px-4 sm:px-5 py-2.5 rounded-2xl text-sm font-medium transition-all shadow-cute hover:-translate-y-0.5 flex items-center gap-2 shrink-0">
                         <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline" id="addAccountBtnText">เพิ่มบัญชี Netflix</span>
@@ -128,18 +127,15 @@
     </nav>
 
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        
-        <!-- Banner Upload -->
-        <div class="mb-6 relative group rounded-3xl overflow-hidden shadow-soft border border-pink-50 cursor-pointer" onclick="document.getElementById('bannerInput').click()" title="เปลี่ยนแบนเนอร์">
+        <div class="mb-6 relative group rounded-3xl overflow-hidden shadow-soft border border-pink-50 cursor-pointer" onclick="triggerBannerUpload()" title="เปลี่ยนแบนเนอร์">
             <img id="storeBanner" src="https://placehold.co/800x200/fce7f3/ec4899?text=Monali+Store+Management" alt="Banner" class="w-full h-32 sm:h-48 object-cover transition-transform duration-700 group-hover:scale-105">
             <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <i class="fa-solid fa-camera text-white text-3xl mb-2"></i>
                 <span class="text-white font-medium shadow-sm">คลิกเพื่อเปลี่ยนแบนเนอร์</span>
             </div>
-            <input type="file" id="bannerInput" accept="image/*" class="hidden" onchange="handleBannerUpload(event)">
+            <input type="file" id="bannerInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleBannerUpload(event)">
         </div>
 
-        <!-- Dashboard Stats Grid (5 Cards) -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 mb-8">
             <div class="bg-white p-4 sm:p-5 rounded-3xl border border-pink-50 shadow-soft flex flex-col justify-center items-center gap-2 text-center">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-pink-50 flex items-center justify-center text-pink-400 text-lg sm:text-xl shrink-0">
@@ -161,7 +157,6 @@
                 </div>
             </div>
 
-            <!-- Clickable Cards -->
             <div class="bg-white p-4 sm:p-5 rounded-3xl border border-pink-50 shadow-soft flex flex-col justify-center items-center gap-2 text-center cursor-pointer hover:border-gray-300 hover:shadow-cute transition-all group relative" onclick="openAvailableListModal()" title="ดูรายการว่าง">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 text-lg sm:text-xl shrink-0 group-hover:scale-110 transition-transform">
                     <i class="fa-regular fa-circle"></i>
@@ -193,9 +188,9 @@
             </div>
         </div>
 
-        <div id="accountsLoading" class="text-center py-10 hidden">
+        <div id="accountsLoading" class="text-center py-8 hidden">
             <div class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-pink-50 border border-pink-100 text-pink-500 text-sm font-medium shadow-sm">
-                <i class="fa-solid fa-circle-notch fa-spin"></i> กำลังเชื่อมต่อและดึงข้อมูลจาก Supabase...
+                <i class="fa-solid fa-circle-notch fa-spin"></i> กำลังเชื่อมต่อระบบและดึงข้อมูล...
             </div>
         </div>
 
@@ -212,15 +207,14 @@
             </button>
         </div>
 
-        <!-- Admin Locked Banner -->
         <div id="adminLockedBanner" class="hidden mt-8 p-4 bg-pink-50 border border-pink-200 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-500 flex items-center justify-center">
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <div>
-                    <h4 class="text-sm font-bold text-gray-800">โหมดจำกัดสิทธิ์ (ล็อกเอาต์แล้ว)</h4>
-                    <p class="text-xs text-gray-500">คุณสามารถดูข้อมูลได้ แต่ต้องเข้าสู่ระบบแอดมินเพื่อแก้ไขข้อมูล</p>
+                    <h4 class="text-sm font-bold text-gray-800">โหมดผู้ใช้ทั่วไป (ยังไม่ได้เข้าสู่ระบบแอดมิน)</h4>
+                    <p class="text-xs text-gray-500">คุณต้องเข้าสู่ระบบแอดมินที่มีสิทธิ์เพื่อเข้าดูและจัดการข้อมูลบัญชี</p>
                 </div>
             </div>
             <button onclick="openAdminModal()" class="px-4 py-2 bg-pink-500 text-white text-xs font-bold rounded-xl shadow-sm hover:bg-pink-600 transition-colors">
@@ -238,6 +232,7 @@
         </button>
     </div>
 
+    <!-- Modals -->
     <div id="addAccountModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 modal-content overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -481,7 +476,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-400 font-medium">เข้าสู่ระบบในนาม</p>
-                            <h4 id="currentAdminNameLabel" class="text-sm font-bold text-gray-800">ผู้ดูแลระบบหลัก</h4>
+                            <h4 id="currentAdminNameLabel" class="text-sm font-bold text-gray-800">ผู้ดูแลระบบ</h4>
                         </div>
                     </div>
                     <button onclick="logoutAdmin()" class="px-3 py-1.5 bg-white text-red-500 hover:bg-red-50 border border-red-100 text-xs font-bold rounded-xl transition-colors shadow-sm">
@@ -490,24 +485,19 @@
                 </div>
 
                 <div id="adminLoginFormContainer" class="space-y-4">
-                    <div class="flex p-1 bg-gray-100 rounded-2xl">
-                        <button type="button" id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-xl text-xs font-bold transition-all bg-white text-pink-500 shadow-sm">เข้าสู่ระบบ</button>
-                        <button type="button" id="tabSignupBtn" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-gray-800">สร้างบัญชีแอดมิน</button>
+                    <div class="text-center pb-1">
+                        <h4 class="font-bold text-gray-800 text-base">เข้าสู่ระบบแอดมิน</h4>
+                        <p class="text-xs text-gray-400">กรุณากรอกอีเมลและรหัสผ่านเพื่อดำเนินการต่อ</p>
                     </div>
 
                     <form id="adminAuthForm" onsubmit="handleAdminAuth(event)" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">อีเมล (Email)</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">อีเมลแอดมิน (Email)</label>
                             <input type="email" id="loginAdminEmail" required class="w-full rounded-2xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="admin@monali.com">
-                            <p class="text-[11px] text-gray-400 mt-1">*ใช้อีเมลจริงที่ผูกกับ UID แอดมินใน Supabase (ไม่ใช่ใส่รหัส UID)</p>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">รหัสผ่าน (Password)</label>
                             <input type="password" id="loginAdminPassword" required minlength="6" class="w-full rounded-2xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="รหัสผ่านอย่างน้อย 6 ตัว">
-                        </div>
-                        <div id="signupNameField" class="hidden">
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">ชื่อที่แสดง (Display Name)</label>
-                            <input type="text" id="signupAdminName" class="w-full rounded-2xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="เช่น แอดมินโมนาลี่">
                         </div>
                         <button type="submit" id="btnAdminAuthSubmit" class="w-full py-3.5 bg-pink-500 text-white rounded-2xl text-sm font-bold shadow-cute hover:bg-pink-600 transition-all">
                             ยืนยันการเข้าสู่ระบบ
@@ -645,21 +635,18 @@
         const SUPABASE_URL = 'https://vhzuldjhviwdjcsurhue.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoenVsZGpodml3ZGpjc3VyaHVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1OTQ3ODIsImV4cCI6MjEwNTE3MDc4Mn0.gEDUSk7keLxwtCdKrACzd0NbPFuieG4WJZt8W-hdybI';
         
-        // กำหนดการเชื่อมต่อ Supabase อย่างปลอดภัยพร้อมดักจับ Error
         let supabaseClient = null;
         try {
             if (window.supabase && typeof window.supabase.createClient === 'function') {
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             }
         } catch (initErr) {
-            console.error('Supabase client initialization error:', initErr);
+            console.warn('Supabase client initialization notice:', initErr);
         }
 
-        // ตัวแปรสถานะระบบ
         let currentService = 'netflix';
         let netflixAccounts = [];
         let youtubeAccounts = [];
-        let authMode = 'login'; // 'login' or 'signup'
         
         let telegramSettings = { token: '', chatId: '' };
         let collapsedAccounts = new Set();
@@ -675,17 +662,18 @@
 
         window.addEventListener('DOMContentLoaded', async () => {
             switchService('netflix');
+            loadPublicBrandingCache();
+            renderDashboard();
+
             try {
                 await initSupabaseAuth();
                 await loadData();
                 setupRealtimeSubscriptions();
                 checkDailyNotifications();
             } catch (err) {
-                console.warn('Initial load warning:', err);
                 renderDashboard();
             }
 
-            // ตรวจสอบสถานะและเวลาอัตโนมัติทุก 1 นาที
             setInterval(() => {
                 renderDashboard();
                 checkDailyNotifications();
@@ -693,7 +681,12 @@
         });
 
         async function initSupabaseAuth() {
-            if (!supabaseClient) return;
+            if (!supabaseClient) {
+                checkAdminPermissionsUI();
+                updateAdminStateUI();
+                return;
+            }
+
             try {
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 await evaluateUserAdminStatus(session);
@@ -703,8 +696,10 @@
                     await loadData();
                 });
             } catch (e) {
-                console.warn('Auth session check notice:', e);
+                console.warn('Auth session check notice');
             }
+            checkAdminPermissionsUI();
+            updateAdminStateUI();
         }
 
         async function evaluateUserAdminStatus(session) {
@@ -733,68 +728,54 @@
             }
         }
 
-        function switchAuthTab(mode) {
-            authMode = mode;
-            const tabLoginBtn = document.getElementById('tabLoginBtn');
-            const tabSignupBtn = document.getElementById('tabSignupBtn');
-            const signupNameField = document.getElementById('signupNameField');
-            const btnSubmit = document.getElementById('btnAdminAuthSubmit');
+        function loadPublicBrandingCache() {
+            try {
+                const savedLogo = localStorage.getItem('monali_logo');
+                if (savedLogo) document.getElementById('storeLogo').src = savedLogo;
 
-            if (mode === 'login') {
-                tabLoginBtn.className = 'flex-1 py-2 rounded-xl text-xs font-bold transition-all bg-white text-pink-500 shadow-sm';
-                tabSignupBtn.className = 'flex-1 py-2 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-gray-800';
-                signupNameField.classList.add('hidden');
-                btnSubmit.textContent = 'ยืนยันการเข้าสู่ระบบ';
-            } else {
-                tabSignupBtn.className = 'flex-1 py-2 rounded-xl text-xs font-bold transition-all bg-white text-pink-500 shadow-sm';
-                tabLoginBtn.className = 'flex-1 py-2 rounded-xl text-xs font-bold transition-all text-gray-500 hover:text-gray-800';
-                signupNameField.classList.remove('hidden');
-                btnSubmit.textContent = 'สมัครและตั้งสิทธิ์แอดมิน';
-            }
+                const savedBanner = localStorage.getItem('monali_banner');
+                if (savedBanner) document.getElementById('storeBanner').src = savedBanner;
+
+                const savedTpl = localStorage.getItem('monali_templates');
+                formTemplates = savedTpl ? JSON.parse(savedTpl) : [defaultTemplate];
+            } catch (e) {}
         }
 
         async function handleAdminAuth(e) {
             e.preventDefault();
-            if (!supabaseClient) {
-                showToast('ไม่พบการเชื่อมต่อกับ Supabase ❌', true);
-                return;
-            }
             const email = document.getElementById('loginAdminEmail').value.trim();
             const password = document.getElementById('loginAdminPassword').value.trim();
             const submitBtn = document.getElementById('btnAdminAuthSubmit');
             const origText = submitBtn.innerHTML;
             
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> กำลังดำเนินการ...';
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> กำลังตรวจสอบ...';
             submitBtn.disabled = true;
 
             try {
-                if (authMode === 'signup') {
-                    const displayName = document.getElementById('signupAdminName').value.trim() || 'ผู้ดูแลระบบ';
-                    const { data, error } = await supabaseClient.auth.signUp({
-                        email: email,
-                        password: password,
-                        options: { data: { display_name: displayName } }
-                    });
-                    if (error) throw error;
-                    showToast('สมัครบัญชีสำเร็จแล้ว! กำลังเข้าสู่ระบบ... ✨');
-                    
-                    // พยายามล็อกอินทันทีหลังสมัคร
-                    await supabaseClient.auth.signInWithPassword({ email, password });
-                } else {
-                    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                    if (error) throw error;
+                if (!supabaseClient) throw new Error('ไม่สามารถเชื่อมต่อระบบฐานข้อมูลได้');
+
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
+                const { data: isAdmin, error: adminErr } = await supabaseClient.rpc('is_admin');
+                if (adminErr || !isAdmin) {
+                    await supabaseClient.auth.signOut();
+                    throw new Error('บัญชีนี้ไม่มีสิทธิ์เข้าถึงระบบผู้ดูแลร้าน');
                 }
 
-                // ตรวจสอบสิทธิ์แอดมิน
-                const { data: isAdmin, error: rpcErr } = await supabaseClient.rpc('is_admin');
-                if (rpcErr || !isAdmin) {
-                    showToast('เข้าสู่ระบบได้แล้ว แต่ตรวจไม่พบสิทธิ์แอดมินในตาราง admins 🔒', true);
-                } else {
-                    showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับค่ะ ✨');
-                    closeAdminModal();
-                }
+                currentAdmin = {
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.user_metadata?.display_name || data.user.email.split('@')[0] || 'ผู้ดูแลระบบ'
+                };
+                
+                showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับค่ะ ✨');
+                closeAdminModal();
+                updateAdminStateUI();
+                checkAdminPermissionsUI();
+                await loadData();
             } catch (err) {
-                showToast('ข้อผิดพลาด: ' + (err.message || 'ข้อมูลไม่ถูกต้อง') + ' ❌', true);
+                showToast(err.message || 'เข้าสู่ระบบไม่สำเร็จ ข้อมูลไม่ถูกต้อง', true);
             } finally {
                 submitBtn.innerHTML = origText;
                 submitBtn.disabled = false;
@@ -803,6 +784,9 @@
 
         function setupRealtimeSubscriptions() {
             if (!supabaseClient) return;
+            const isInsideIframe = window.self !== window.top;
+            if (isInsideIframe) return;
+
             try {
                 supabaseClient.channel('monali-realtime')
                     .on('postgres_changes', { event: '*', schema: 'public', table: 'accounts' }, () => loadData())
@@ -810,9 +794,7 @@
                     .on('postgres_changes', { event: '*', schema: 'public', table: 'store_branding' }, () => loadData())
                     .on('postgres_changes', { event: '*', schema: 'public', table: 'form_templates' }, () => loadData())
                     .subscribe();
-            } catch (err) {
-                console.warn('Realtime subscription notice:', err);
-            }
+            } catch (err) {}
         }
 
         async function loadData() {
@@ -828,76 +810,72 @@
             }
 
             try {
-                // 1. โหลดข้อมูลภาพแบรนด์ร้านค้า
                 const { data: branding } = await supabaseClient.from('store_branding').select('*').eq('id', 'default').maybeSingle();
                 if (branding) {
                     if (branding.logo_url) document.getElementById('storeLogo').src = branding.logo_url;
                     if (branding.banner_url) document.getElementById('storeBanner').src = branding.banner_url;
                 }
 
-                // 2. โหลดเทมเพลตข้อความ
                 const { data: templates } = await supabaseClient.from('form_templates').select('*').order('created_at', { ascending: true });
                 if (templates && templates.length > 0) {
                     formTemplates = templates;
-                } else {
-                    formTemplates = [defaultTemplate];
                 }
 
-                // 3. โหลดบัญชีและจอย่อยทั้งหมด
-                const { data: accountsData, error } = await supabaseClient
-                    .from('accounts')
-                    .select(`
-                        id,
-                        service_type,
-                        name,
-                        email,
-                        password,
-                        account_expire_date,
-                        screens (
+                if (currentAdmin) {
+                    const { data: accountsData, error } = await supabaseClient
+                        .from('accounts')
+                        .select(`
                             id,
-                            screen_index,
-                            status,
-                            pin,
-                            expire_date,
-                            notes
-                        )
-                    `)
-                    .order('created_at', { ascending: false });
+                            service_type,
+                            name,
+                            email,
+                            password,
+                            account_expire_date,
+                            screens (
+                                id,
+                                screen_index,
+                                status,
+                                pin,
+                                expire_date,
+                                notes
+                            )
+                        `)
+                        .order('created_at', { ascending: false });
 
-                if (error) {
-                    console.warn('Accounts query notice:', error.message);
-                    showToast('ดึงข้อมูลบัญชีไม่สำเร็จ: ' + error.message + ' ❌', true);
-                } else if (accountsData) {
-                    const mappedAccounts = accountsData.map(acc => {
-                        const rawScreens = acc.screens || [];
-                        const screens = [];
-                        for (let i = 1; i <= 5; i++) {
-                            const found = rawScreens.find(s => s.screen_index === i);
-                            screens.push({
-                                id: found?.id || null,
-                                screen_index: i,
-                                status: found ? found.status : 'available',
-                                expireDate: found?.expire_date || '',
-                                pin: found?.pin || '',
-                                notes: found?.notes || ''
-                            });
-                        }
-                        return {
-                            id: acc.id,
-                            service_type: acc.service_type,
-                            name: acc.name,
-                            email: acc.email,
-                            password: acc.password,
-                            accountExpireDate: acc.account_expire_date || '',
-                            screens: screens
-                        };
-                    });
+                    if (!error && accountsData) {
+                        const mappedAccounts = accountsData.map(acc => {
+                            const rawScreens = acc.screens || [];
+                            const screens = [];
+                            for (let i = 1; i <= 5; i++) {
+                                const found = rawScreens.find(s => s.screen_index === i);
+                                screens.push({
+                                    id: found?.id || null,
+                                    screen_index: i,
+                                    status: found ? found.status : 'available',
+                                    expireDate: found?.expire_date || '',
+                                    pin: found?.pin || '',
+                                    notes: found?.notes || ''
+                                });
+                            }
+                            return {
+                                id: acc.id,
+                                service_type: acc.service_type,
+                                name: acc.name,
+                                email: acc.email,
+                                password: acc.password,
+                                accountExpireDate: acc.account_expire_date || '',
+                                screens: screens
+                            };
+                        });
 
-                    netflixAccounts = mappedAccounts.filter(a => a.service_type === 'netflix');
-                    youtubeAccounts = mappedAccounts.filter(a => a.service_type === 'youtube');
+                        netflixAccounts = mappedAccounts.filter(a => a.service_type === 'netflix');
+                        youtubeAccounts = mappedAccounts.filter(a => a.service_type === 'youtube');
+                    }
+                } else {
+                    netflixAccounts = [];
+                    youtubeAccounts = [];
                 }
             } catch (err) {
-                console.error('Failed to load data from Supabase:', err);
             } finally {
                 if (loadingEl) loadingEl.classList.add('hidden');
                 renderDashboard();
@@ -914,21 +892,19 @@
                         chatId: data.chat_id || ''
                     };
                 }
-            } catch (e) {
-                console.warn('Failed to load telegram settings:', e);
-            }
+            } catch (e) {}
         }
 
         function escapeHTML(str) {
             if (!str) return '';
-            return str.replace(/[&<>'"]/g, tag => ({
+            return String(str).replace(/[&<>'"]/g, tag => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
             }[tag]));
         }
 
         function escapeJS(str) {
             if (!str) return '';
-            return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+            return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
         }
 
         function parseLocalDate(dateString) {
@@ -1080,19 +1056,19 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-1 shrink-0 bg-gray-50 rounded-full p-1 border border-gray-100">
-                                <button onclick="toggleScreens('${account.id}')" class="text-gray-400 hover:text-pink-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ย่อ/ขยาย">
-                                    <i id="icon-toggle-${account.id}" class="${iconClass}"></i>
+                                <button onclick="toggleScreens('${escapeJS(account.id)}')" class="text-gray-400 hover:text-pink-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ย่อ/ขยาย">
+                                    <i id="icon-toggle-${escapeHTML(account.id)}" class="${iconClass}"></i>
                                 </button>
-                                <button onclick="openEditAccountModal('${account.id}')" class="text-gray-400 hover:text-blue-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="แก้ไขบัญชี">
+                                <button onclick="openEditAccountModal('${escapeJS(account.id)}')" class="text-gray-400 hover:text-blue-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="แก้ไขบัญชี">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button onclick="confirmDeleteAccount('${account.id}')" class="text-gray-400 hover:text-red-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ลบบัญชี">
+                                <button onclick="confirmDeleteAccount('${escapeJS(account.id)}')" class="text-gray-400 hover:text-red-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ลบบัญชี">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div id="screens-container-${account.id}" class="${containerClass}">
+                        <div id="screens-container-${escapeHTML(account.id)}" class="${containerClass}">
                             <div class="flex flex-col gap-2">
                     `;
 
@@ -1105,7 +1081,7 @@
                         if (effStatus !== 'available') {
                             detailsHtml = `
                                 <div class="flex items-center gap-3 text-[11px] sm:text-xs text-gray-500 mt-1 truncate">
-                                    ${screen.pin ? `<span class="flex items-center gap-1 shrink-0"><i class="fa-solid ${isNetflix ? 'fa-lock' : 'fa-user'} text-gray-400"></i> <span class="font-medium text-gray-700">${screen.pin}</span></span>` : ''}
+                                    ${screen.pin ? `<span class="flex items-center gap-1 shrink-0"><i class="fa-solid ${isNetflix ? 'fa-lock' : 'fa-user'} text-gray-400"></i> <span class="font-medium text-gray-700">${escapeHTML(screen.pin)}</span></span>` : ''}
                                     ${screen.expireDate ? `<span class="flex items-center gap-1 shrink-0"><i class="fa-regular fa-calendar text-gray-400"></i> หมด: ${formatDate(screen.expireDate)}</span>` : ''}
                                     ${screen.notes ? `<span class="truncate max-w-[120px] sm:max-w-[200px] text-gray-400 italic">" ${escapeHTML(screen.notes)} "</span>` : ''}
                                 </div>
@@ -1127,10 +1103,10 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-1.5 shrink-0 ml-2">
-                                        <button onclick="openAutoFormForScreen('${account.id}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-pink-500 hover:border-pink-300 flex items-center justify-center transition-colors shadow-sm" title="สร้างฟอร์มข้อความ">
+                                        <button onclick="openAutoFormForScreen('${escapeJS(account.id)}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-pink-500 hover:border-pink-300 flex items-center justify-center transition-colors shadow-sm" title="สร้างฟอร์มข้อความ">
                                             <i class="fa-solid fa-file-signature text-xs"></i>
                                         </button>
-                                        <button onclick="openEditScreenModal('${account.id}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300 flex items-center justify-center transition-colors shadow-sm" title="แก้ไข">
+                                        <button onclick="openEditScreenModal('${escapeJS(account.id)}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300 flex items-center justify-center transition-colors shadow-sm" title="แก้ไข">
                                             <i class="fa-solid fa-pen text-xs"></i>
                                         </button>
                                     </div>
@@ -1195,12 +1171,12 @@
             const icon = document.getElementById(`icon-toggle-${accountId}`);
             if (collapsedAccounts.has(accountId)) {
                 collapsedAccounts.delete(accountId);
-                container.classList.remove('hidden');
-                icon.className = 'fa-solid fa-chevron-up';
+                if (container) container.classList.remove('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-up';
             } else {
                 collapsedAccounts.add(accountId);
-                container.classList.add('hidden');
-                icon.className = 'fa-solid fa-chevron-down';
+                if (container) container.classList.add('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-down';
             }
         }
 
@@ -1260,13 +1236,6 @@
             }
         }
 
-        function openAutoFormFromAvailable(accountId, screenIndex) {
-            closeAvailableListModal();
-            setTimeout(() => {
-                openAutoFormForScreen(accountId, screenIndex);
-            }, 300);
-        }
-
         function renderAvailableList() {
             const container = document.getElementById('availableListContent');
             const activeData = getActiveData();
@@ -1297,10 +1266,10 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2 shrink-0">
-                                    <button onclick="openAutoFormFromAvailable('${acc.id}', ${index})" class="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-400 ${hoverTextClass} ${hoverBorderBtn} flex items-center justify-center transition-colors shadow-sm" title="สร้างฟอร์มข้อความ">
+                                    <button onclick="openAutoFormFromAvailable('${escapeJS(acc.id)}', ${index})" class="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-400 ${hoverTextClass} ${hoverBorderBtn} flex items-center justify-center transition-colors shadow-sm" title="สร้างฟอร์มข้อความ">
                                         <i class="fa-solid fa-file-signature"></i>
                                     </button>
-                                    <button onclick="closeAvailableListModal(); setTimeout(() => openEditScreenModal('${acc.id}', ${index}), 300)" class="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300 flex items-center justify-center transition-colors shadow-sm" title="แก้ไข/อัปเดตสถานะ">
+                                    <button onclick="closeAvailableListModal(); setTimeout(() => openEditScreenModal('${escapeJS(acc.id)}', ${index}), 300)" class="w-9 h-9 rounded-xl bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300 flex items-center justify-center transition-colors shadow-sm" title="แก้ไข/อัปเดตสถานะ">
                                         <i class="fa-solid fa-pen"></i>
                                     </button>
                                 </div>
@@ -1323,6 +1292,13 @@
                 `;
             }
             container.innerHTML = html;
+        }
+
+        function openAutoFormFromAvailable(accountId, screenIndex) {
+            closeAvailableListModal();
+            setTimeout(() => {
+                openAutoFormForScreen(accountId, screenIndex);
+            }, 300);
         }
 
         function openKickListModal() {
@@ -1357,7 +1333,7 @@
                                     ${screen.notes ? `<div class="text-xs text-orange-600 mt-2 bg-orange-50/50 p-2 rounded-xl border border-orange-100/50 flex items-start gap-1.5"><i class="fa-regular fa-comment-dots mt-0.5 shrink-0"></i><span class="line-clamp-2">${escapeHTML(screen.notes)}</span></div>` : ''}
                                 </div>
                                 <div class="flex gap-2 sm:flex-col shrink-0">
-                                    <button onclick="closeKickListModal(); setTimeout(() => openEditScreenModal('${acc.id}', ${index}), 300)" class="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-gray-600 bg-white border border-gray-200 hover:text-blue-500 hover:border-blue-300 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                                    <button onclick="closeKickListModal(); setTimeout(() => openEditScreenModal('${escapeJS(acc.id)}', ${index}), 300)" class="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-gray-600 bg-white border border-gray-200 hover:text-blue-500 hover:border-blue-300 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
                                         <i class="fa-solid fa-pen"></i> <span class="sm:hidden">แก้ไข</span>
                                     </button>
                                 </div>
@@ -1416,7 +1392,7 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2 sm:flex-col shrink-0">
-                                    <button onclick="closeCutoffListModal(); setTimeout(() => openEditAccountModal('${acc.id}'), 300)" class="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-white bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+                                    <button onclick="closeCutoffListModal(); setTimeout(() => openEditAccountModal('${escapeJS(acc.id)}'), 300)" class="flex-1 px-4 py-2.5 rounded-xl text-xs font-medium text-white bg-purple-500 hover:bg-purple-600 transition-colors flex items-center justify-center gap-1.5 shadow-sm">
                                         <i class="fa-solid fa-pen"></i> อัปเดตวันที่
                                     </button>
                                 </div>
@@ -1469,13 +1445,20 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังบันทึก...';
             btn.disabled = true;
 
+            const name = document.getElementById('accountName').value.trim();
+            const email = document.getElementById('accountEmail').value.trim();
+            const password = document.getElementById('accountPassword').value.trim();
+            const accountExpireDate = document.getElementById('accountExpireDate').value || null;
+
             try {
+                if (!supabaseClient) throw new Error('ระบบไม่ได้เชื่อมต่อกับ Supabase');
+
                 const newAcc = {
                     service_type: currentService,
-                    name: document.getElementById('accountName').value.trim(),
-                    email: document.getElementById('accountEmail').value.trim(),
-                    password: document.getElementById('accountPassword').value.trim(),
-                    account_expire_date: document.getElementById('accountExpireDate').value || null
+                    name,
+                    email,
+                    password,
+                    account_expire_date: accountExpireDate
                 };
 
                 const { data: createdAcc, error: accErr } = await supabaseClient
@@ -1486,27 +1469,23 @@
 
                 if (accErr) throw accErr;
 
-                // สร้าง 5 จอว่างเริ่มต้นลงตาราง screens
-                const screensToInsert = [];
-                for (let i = 1; i <= 5; i++) {
-                    screensToInsert.push({
+                if (createdAcc) {
+                    const screensToInsert = Array.from({ length: 5 }, (_, i) => ({
                         account_id: createdAcc.id,
-                        screen_index: i,
+                        screen_index: i + 1,
                         status: 'available',
                         pin: '',
                         expire_date: null,
                         notes: ''
-                    });
+                    }));
+                    await supabaseClient.from('screens').insert(screensToInsert);
                 }
-                const { error: screenErr } = await supabaseClient.from('screens').insert(screensToInsert);
-                if (screenErr) throw screenErr;
 
                 await loadData();
                 closeAddAccountModal();
-                showToast('เพิ่มข้อมูลใหม่เข้า Supabase สำเร็จ ✨');
+                showToast('เพิ่มข้อมูลใหม่เรียบร้อยแล้วค่ะ ✨');
             } catch (err) {
-                console.error('Error adding account:', err);
-                showToast('บันทึกไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่ถูกต้อง') + ' ❌', true);
+                showToast('ไม่สามารถบันทึกได้: ' + (err.message || 'ข้อผิดพลาดระบบ'), true);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -1534,22 +1513,28 @@
             if (!requireAdminAuth()) return;
 
             const id = document.getElementById('editAccId').value;
-            const updates = {
-                name: document.getElementById('editAccName').value.trim(),
-                email: document.getElementById('editAccEmail').value.trim(),
-                password: document.getElementById('editAccPassword').value.trim(),
-                account_expire_date: document.getElementById('editAccExpireDate').value || null
-            };
+            const name = document.getElementById('editAccName').value.trim();
+            const email = document.getElementById('editAccEmail').value.trim();
+            const password = document.getElementById('editAccPassword').value.trim();
+            const accountExpireDate = document.getElementById('editAccExpireDate').value || null;
 
-            const { error } = await supabaseClient.from('accounts').update(updates).eq('id', id);
-            if (error) {
-                showToast('แก้ไขไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
+            try {
+                if (supabaseClient) {
+                    const { error } = await supabaseClient.from('accounts').update({
+                        name,
+                        email,
+                        password,
+                        account_expire_date: accountExpireDate
+                    }).eq('id', id);
+                    if (error) throw error;
+                }
+
+                await loadData();
+                closeEditAccountModal();
+                showToast('แก้ไขข้อมูลบัญชีเรียบร้อยแล้วค่ะ ✨');
+            } catch (err) {
+                showToast('แก้ไขไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
             }
-
-            await loadData();
-            closeEditAccountModal();
-            showToast('แก้ไขข้อมูลบัญชีใน Supabase สำเร็จ ✨');
         }
 
         function openEditScreenModal(accountId, screenIndex) {
@@ -1590,29 +1575,36 @@
             const accountId = document.getElementById('editAccountId').value;
             const screenIndex = parseInt(document.getElementById('editScreenIndex').value);
             const selectedRadio = document.querySelector('input[name="screenStatus"]:checked');
+            
             if(!selectedRadio) {
                 showToast('กรุณาเลือกสถานะว่าง หรือ ใช้งานอยู่ ❌', true);
                 return;
             }
 
-            const screenPayload = {
-                account_id: accountId,
-                screen_index: screenIndex + 1,
-                status: selectedRadio.value,
-                expire_date: document.getElementById('expireDate').value || null,
-                pin: document.getElementById('screenPin').value.trim(),
-                notes: document.getElementById('screenNotes').value.trim()
-            };
+            const status = selectedRadio.value;
+            const expireDate = document.getElementById('expireDate').value || null;
+            const pin = document.getElementById('screenPin').value.trim();
+            const notes = document.getElementById('screenNotes').value.trim();
 
-            const { error } = await supabaseClient.from('screens').upsert(screenPayload, { onConflict: 'account_id,screen_index' });
-            if (error) {
-                showToast('บันทึกจอไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
+            try {
+                if (supabaseClient) {
+                    const { error } = await supabaseClient.from('screens').upsert({
+                        account_id: accountId,
+                        screen_index: screenIndex + 1,
+                        status: status,
+                        expire_date: expireDate,
+                        pin: pin,
+                        notes: notes
+                    }, { onConflict: 'account_id,screen_index' });
+                    if (error) throw error;
+                }
+
+                await loadData();
+                closeEditScreenModal();
+                showToast('บันทึกข้อมูลจอเรียบร้อยแล้วค่ะ 💖');
+            } catch (err) {
+                showToast('บันทึกไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
             }
-
-            await loadData();
-            closeEditScreenModal();
-            showToast('บันทึกข้อมูลจอลง Supabase สำเร็จ 💖');
         }
 
         function confirmDeleteAccount(accountId) {
@@ -1626,15 +1618,20 @@
         }
         async function executeDeleteAccount() {
             if (!requireAdminAuth() || !accountIdToDelete) return;
-            const { error } = await supabaseClient.from('accounts').delete().eq('id', accountIdToDelete);
-            if (error) {
-                showToast('ลบไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
+            
+            try {
+                if (supabaseClient) {
+                    const { error } = await supabaseClient.from('accounts').delete().eq('id', accountIdToDelete);
+                    if (error) throw error;
+                }
+
+                collapsedAccounts.delete(accountIdToDelete);
+                await loadData();
+                closeDeleteModal();
+                showToast('ลบข้อมูลเรียบร้อยแล้วค่ะ 🗑️');
+            } catch (err) {
+                showToast('ลบไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
             }
-            collapsedAccounts.delete(accountIdToDelete);
-            await loadData();
-            closeDeleteModal();
-            showToast('ลบข้อมูลออกจาก Supabase เรียบร้อยแล้วค่ะ 🗑️');
         }
 
         function openSettingsModal() {
@@ -1653,21 +1650,21 @@
             const token = document.getElementById('tgToken').value.trim();
             const chatId = document.getElementById('tgChatId').value.trim();
 
-            const { error } = await supabaseClient.from('telegram_settings').upsert({
-                id: 'default',
-                bot_token: token,
-                chat_id: chatId
-            });
-
-            if (error) {
-                showToast('บันทึกการตั้งค่าไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
-            }
-
             telegramSettings.token = token;
             telegramSettings.chatId = chatId;
+
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('telegram_settings').upsert({
+                        id: 'default',
+                        bot_token: token,
+                        chat_id: chatId
+                    });
+                } catch (e) {}
+            }
+
             closeSettingsModal();
-            showToast('บันทึกการตั้งค่า Telegram บน Supabase แล้ว 🔔');
+            showToast('บันทึกการตั้งค่า Telegram เรียบร้อยแล้ว 🔔');
         }
 
         async function sendTelegramMessage(text) {
@@ -1715,7 +1712,7 @@
             telegramSettings.token = tempToken;
             telegramSettings.chatId = tempChatId;
 
-            const result = await sendTelegramMessage('👋 <b>ทดสอบระบบแจ้งเตือน Monali</b>\nเชื่อมต่อกับ Supabase สำเร็จ! ✨');
+            const result = await sendTelegramMessage('👋 <b>ทดสอบระบบแจ้งเตือน Monali</b>\nเชื่อมต่อระบบสำเร็จ! ✨');
             
             if (result.success) {
                 resultDiv.innerHTML = '<i class="fa-solid fa-check-circle mr-1"></i> ส่งสำเร็จ ตรวจสอบใน Telegram ได้เลย';
@@ -1731,12 +1728,12 @@
         }
 
         async function checkDailyNotifications() {
-            if (!telegramSettings.token || !telegramSettings.chatId || !supabaseClient) return;
+            if (!telegramSettings.token || !telegramSettings.chatId) return;
             const todayStr = new Date().toLocaleDateString('en-CA');
-            const { data } = await supabaseClient.from('telegram_settings').select('last_notif_date').eq('id', 'default').maybeSingle();
-            if (data && data.last_notif_date !== todayStr) {
+            const lastRun = localStorage.getItem('monali_last_notif_date');
+            if (lastRun !== todayStr) {
                 await sendDailySummary();
-                await supabaseClient.from('telegram_settings').update({ last_notif_date: todayStr }).eq('id', 'default');
+                localStorage.setItem('monali_last_notif_date', todayStr);
             }
         }
 
@@ -1855,13 +1852,16 @@
 
         async function logoutAdmin() {
             if (supabaseClient) {
-                await supabaseClient.auth.signOut();
+                try {
+                    await supabaseClient.auth.signOut();
+                } catch(e) {}
             }
             currentAdmin = null;
-            telegramSettings = { token: '', chatId: '' };
+            netflixAccounts = [];
+            youtubeAccounts = [];
             updateAdminStateUI();
             checkAdminPermissionsUI();
-            await loadData();
+            renderDashboard();
             showToast('ออกจากระบบเรียบร้อยแล้ว 🔒');
         }
 
@@ -1966,17 +1966,25 @@
             if (!name || !content) { showToast('กรุณากรอกข้อมูลให้ครบถ้วน ❌', true); return; }
 
             const targetId = id || ('tpl_' + Date.now());
-            const { error } = await supabaseClient.from('form_templates').upsert({ id: targetId, name, content });
-            if (error) {
-                showToast('บันทึกรูปแบบไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
+            const index = formTemplates.findIndex(t => t.id === targetId);
+            if (index !== -1) {
+                formTemplates[index] = { id: targetId, name, content };
+            } else {
+                formTemplates.push({ id: targetId, name, content });
             }
 
-            await loadData();
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('form_templates').upsert({ id: targetId, name, content });
+                } catch (e) {}
+            }
+
+            localStorage.setItem('monali_templates', JSON.stringify(formTemplates));
+            updateTemplateDropdown();
             document.getElementById('templateSelect').value = targetId;
             generateFormText();
             closeEditTemplateModal();
-            showToast('บันทึกรูปแบบลง Supabase เรียบร้อย ✨');
+            showToast('บันทึกรูปแบบเรียบร้อย ✨');
         }
 
         async function deleteCurrentTemplate() {
@@ -1984,13 +1992,17 @@
             const id = document.getElementById('editTemplateId').value;
             if (!id || formTemplates.length <= 1) return;
 
-            const { error } = await supabaseClient.from('form_templates').delete().eq('id', id);
-            if (error) {
-                showToast('ลบรูปแบบไม่สำเร็จ: ' + error.message + ' ❌', true);
-                return;
+            formTemplates = formTemplates.filter(t => t.id !== id);
+
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('form_templates').delete().eq('id', id);
+                } catch(e) {}
             }
 
-            await loadData();
+            localStorage.setItem('monali_templates', JSON.stringify(formTemplates));
+            updateTemplateDropdown();
+            generateFormText();
             closeEditTemplateModal();
             showToast('ลบรูปแบบเรียบร้อย 🗑️');
         }
@@ -2005,6 +2017,17 @@
         }
 
         function copyText(text) {
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('คัดลอกข้อความแล้ว ✨');
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
             const el = document.createElement('textarea');
             el.value = text;
             el.setAttribute('readonly', '');
@@ -2025,7 +2048,7 @@
             const iconClass = isError ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-check';
             
             toast.className = `bg-white border-2 ${borderCol} text-gray-700 px-5 py-3.5 rounded-2xl shadow-cute flex items-center gap-3 toast-enter pointer-events-auto`;
-            toast.innerHTML = `<div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center shrink-0"><i class="${iconClass}"></i></div><span class="font-medium text-sm pr-2">${message}</span>`;
+            toast.innerHTML = `<div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center shrink-0"><i class="${iconClass}"></i></div><span class="font-medium text-sm pr-2">${escapeHTML(message)}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.classList.replace('toast-enter', 'toast-exit');
@@ -2033,10 +2056,32 @@
             }, 3500);
         }
 
+        function triggerLogoUpload() {
+            if (!requireAdminAuth()) return;
+            document.getElementById('logoInput').click();
+        }
+
+        function triggerBannerUpload() {
+            if (!requireAdminAuth()) return;
+            document.getElementById('bannerInput').click();
+        }
+
         function handleLogoUpload(event) {
             if (!requireAdminAuth()) return;
             const file = event.target.files[0];
             if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showToast('กรุณาเลือกไฟล์รูปภาพเท่านั้น ❌', true);
+                event.target.value = '';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('ขนาดรูปภาพต้องไม่เกิน 5MB ❌', true);
+                event.target.value = '';
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
@@ -2051,12 +2096,13 @@
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
                     
                     document.getElementById('storeLogo').src = compressedBase64;
-                    const { error } = await supabaseClient.from('store_branding').upsert({ id: 'default', logo_url: compressedBase64 });
-                    if (error) {
-                        showToast('อัปเดตโลโก้ไม่สำเร็จ: ' + error.message + ' ❌', true);
-                    } else {
-                        showToast('อัปเดตโลโก้ร้านบน Supabase แล้ว ✨');
+                    localStorage.setItem('monali_logo', compressedBase64);
+                    if (supabaseClient) {
+                        try {
+                            await supabaseClient.from('store_branding').upsert({ id: 'default', logo_url: compressedBase64 });
+                        } catch(e) {}
                     }
+                    showToast('อัปเดตโลโก้ร้านเรียบร้อย ✨');
                 };
                 img.src = e.target.result;
             };
@@ -2068,6 +2114,18 @@
             if (!requireAdminAuth()) return;
             const file = event.target.files[0];
             if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showToast('กรุณาเลือกไฟล์รูปภาพเท่านั้น ❌', true);
+                event.target.value = '';
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('ขนาดรูปภาพต้องไม่เกิน 5MB ❌', true);
+                event.target.value = '';
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
@@ -2082,12 +2140,13 @@
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
                     
                     document.getElementById('storeBanner').src = compressedBase64;
-                    const { error } = await supabaseClient.from('store_branding').upsert({ id: 'default', banner_url: compressedBase64 });
-                    if (error) {
-                        showToast('อัปเดตแบนเนอร์ไม่สำเร็จ: ' + error.message + ' ❌', true);
-                    } else {
-                        showToast('อัปเดตแบนเนอร์บน Supabase แล้ว ✨');
+                    localStorage.setItem('monali_banner', compressedBase64);
+                    if (supabaseClient) {
+                        try {
+                            await supabaseClient.from('store_branding').upsert({ id: 'default', banner_url: compressedBase64 });
+                        } catch(e) {}
                     }
+                    showToast('อัปเดตแบนเนอร์ร้านเรียบร้อย ✨');
                 };
                 img.src = e.target.result;
             };
