@@ -34,7 +34,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
     
     <style>
@@ -73,7 +73,7 @@
             animation: fadeOut 0.3s ease forwards;
         }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.6);
@@ -98,13 +98,13 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-3">
-                    <div class="relative group cursor-pointer shrink-0" onclick="triggerLogoUpload()" title="เปลี่ยนโลโก้ร้าน">
+                    <div class="relative group cursor-pointer shrink-0" onclick="document.getElementById('logoInput').click()" title="เปลี่ยนโลโก้ร้าน">
                         <img id="storeLogo" src="https://placehold.co/100x100/fce7f3/ec4899?text=Logo" alt="Logo" class="w-11 h-11 rounded-2xl object-cover shadow-cute border-2 border-pink-100">
                         <div class="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                             <i class="fa-solid fa-camera text-white text-xs"></i>
                         </div>
                     </div>
-                    <input type="file" id="logoInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleLogoUpload(event)">
+                    <input type="file" id="logoInput" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
                     <span class="font-bold text-base sm:text-xl text-gray-800 tracking-tight">ระบบจัดการ <span class="text-pink-500">Monali</span></span>
                 </div>
                 <div class="flex items-center gap-2 sm:gap-3">
@@ -127,13 +127,13 @@
     </nav>
 
     <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div class="mb-6 relative group rounded-3xl overflow-hidden shadow-soft border border-pink-50 cursor-pointer" onclick="triggerBannerUpload()" title="เปลี่ยนแบนเนอร์">
+        <div class="mb-6 relative group rounded-3xl overflow-hidden shadow-soft border border-pink-50 cursor-pointer" onclick="document.getElementById('bannerInput').click()" title="เปลี่ยนแบนเนอร์">
             <img id="storeBanner" src="https://placehold.co/800x200/fce7f3/ec4899?text=Monali+Store+Management" alt="Banner" class="w-full h-32 sm:h-48 object-cover transition-transform duration-700 group-hover:scale-105">
             <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <i class="fa-solid fa-camera text-white text-3xl mb-2"></i>
                 <span class="text-white font-medium shadow-sm">คลิกเพื่อเปลี่ยนแบนเนอร์</span>
             </div>
-            <input type="file" id="bannerInput" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="handleBannerUpload(event)">
+            <input type="file" id="bannerInput" accept="image/*" class="hidden" onchange="handleBannerUpload(event)">
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 mb-8">
@@ -213,8 +213,8 @@
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <div>
-                    <h4 class="text-sm font-bold text-gray-800">โหมดผู้ใช้ทั่วไป (ยังไม่ได้เข้าสู่ระบบแอดมิน)</h4>
-                    <p class="text-xs text-gray-500">คุณต้องเข้าสู่ระบบแอดมินที่มีสิทธิ์เพื่อเข้าดูและจัดการข้อมูลบัญชี</p>
+                    <h4 class="text-sm font-bold text-gray-800">โหมดจำกัดสิทธิ์ (ยังไม่ได้เข้าสู่ระบบแอดมิน)</h4>
+                    <p class="text-xs text-gray-500">กรุณาเข้าสู่ระบบแอดมินเพื่อเพิ่ม แก้ไข หรือลบข้อมูล</p>
                 </div>
             </div>
             <button onclick="openAdminModal()" class="px-4 py-2 bg-pink-500 text-white text-xs font-bold rounded-xl shadow-sm hover:bg-pink-600 transition-colors">
@@ -232,7 +232,7 @@
         </button>
     </div>
 
-    <!-- Modals -->
+    <!-- Modal เพิ่มบัญชี -->
     <div id="addAccountModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 modal-content overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -241,7 +241,6 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            
             <div class="p-8 overflow-y-auto">
                 <form id="addAccountForm" onsubmit="handleAddAccount(event)" class="space-y-5">
                     <div>
@@ -263,7 +262,6 @@
                     </div>
                 </form>
             </div>
-            
             <div class="px-8 py-5 bg-gray-50 border-t border-gray-100 flex justify-end gap-3 shrink-0">
                 <button type="button" onclick="closeAddAccountModal()" class="px-6 py-3 rounded-2xl text-sm font-medium text-gray-600 hover:bg-gray-200 transition-colors">ยกเลิก</button>
                 <button type="submit" form="addAccountForm" class="px-6 py-3 rounded-2xl text-sm font-medium text-white bg-pink-400 hover:bg-pink-500 shadow-cute transition-colors" id="btnSubmitAdd">บันทึกข้อมูล</button>
@@ -271,6 +269,7 @@
         </div>
     </div>
 
+    <!-- Modal แก้ไขบัญชี -->
     <div id="editAccountModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 modal-content overflow-hidden flex flex-col max-h-[90vh]">
             <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -279,7 +278,6 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            
             <div class="p-8 overflow-y-auto">
                 <form id="editAccountForm" onsubmit="handleEditAccount(event)" class="space-y-5">
                     <input type="hidden" id="editAccId">
@@ -301,7 +299,6 @@
                     </div>
                 </form>
             </div>
-            
             <div class="px-8 py-5 bg-gray-50 border-t border-gray-100 flex justify-end gap-3 shrink-0">
                 <button type="button" onclick="closeEditAccountModal()" class="px-6 py-3 rounded-2xl text-sm font-medium text-gray-600 hover:bg-gray-200 transition-colors">ยกเลิก</button>
                 <button type="submit" form="editAccountForm" class="px-6 py-3 rounded-2xl text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 shadow-cute transition-colors">บันทึกการแก้ไข</button>
@@ -309,6 +306,7 @@
         </div>
     </div>
 
+    <!-- Modal แก้ไขจอ/สมาชิก -->
     <div id="editScreenModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center sm:p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-t-[2rem] sm:rounded-[2rem] w-full max-w-md shadow-2xl transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh] overflow-hidden">
             <div class="px-5 sm:px-6 py-5 sm:py-6 border-b border-gray-100 flex justify-between items-center shrink-0 w-full">
@@ -317,12 +315,10 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            
             <div class="px-5 sm:px-6 py-6 overflow-y-auto overflow-x-hidden w-full">
                 <form id="editScreenForm" onsubmit="handleEditScreen(event)" class="space-y-5 sm:space-y-6 w-full">
                     <input type="hidden" id="editAccountId">
                     <input type="hidden" id="editScreenIndex">
-                    
                     <div class="w-full">
                         <label class="block text-sm font-medium text-gray-600 mb-2 sm:mb-3">สถานะ (ระบบจะคำนวณวันเตะอัตโนมัติ)</label>
                         <div class="grid grid-cols-2 gap-3 w-full">
@@ -342,7 +338,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="space-y-4 sm:space-y-5 w-full">
                         <div class="w-full">
                             <label class="block text-sm font-medium text-gray-600 mb-1.5" id="lblCustomerInput">PIN / ชื่อลูกค้า (ถ้ามี)</label>
@@ -359,7 +354,6 @@
                     </div>
                 </form>
             </div>
-            
             <div class="px-5 sm:px-6 py-4 sm:py-5 bg-gray-50 flex flex-col shrink-0 rounded-b-[2rem] w-full">
                 <button type="submit" form="editScreenForm" class="w-full rounded-2xl bg-pink-400 px-4 py-3.5 text-sm font-semibold text-white shadow-cute hover:bg-pink-500 hover:-translate-y-0.5 transition-all text-center block box-border">
                     บันทึกข้อมูล
@@ -368,6 +362,37 @@
         </div>
     </div>
 
+    <!-- Modal ยืนยันการลบจอ/สมาชิก -->
+    <div id="deleteScreenModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[65] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl transform scale-95 transition-transform duration-300 modal-content p-6 text-center">
+            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-2xl">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">ลบจอนี้ใช่หรือไม่?</h3>
+            <p class="text-sm text-gray-500 mb-6" id="deleteScreenDesc">ข้อมูลของจอนี้จะถูกลบออกจากระบบ</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteScreenModal()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors">ยกเลิก</button>
+                <button onclick="executeDeleteScreen()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 shadow-soft transition-colors">ลบจอ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ยืนยันการลบบัญชี -->
+    <div id="deleteConfirmModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl transform scale-95 transition-transform duration-300 modal-content p-6 text-center">
+            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-2xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">ลบบัญชีนี้ใช่หรือไม่?</h3>
+            <p class="text-sm text-gray-500 mb-6">ข้อมูลทั้งหมดในบัญชีนี้จะถูกลบและไม่สามารถกู้คืนได้</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors">ยกเลิก</button>
+                <button onclick="executeDeleteAccount()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 shadow-soft transition-colors">ลบบัญชี</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal รายการที่ว่าง -->
     <div id="availableListModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[55] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl transform scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -385,6 +410,7 @@
         </div>
     </div>
 
+    <!-- Modal รายการเตะคืนนี้ -->
     <div id="kickListModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[55] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl transform scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -402,6 +428,7 @@
         </div>
     </div>
 
+    <!-- Modal รายการตัดแอค -->
     <div id="cutoffListModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[55] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl transform scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -419,6 +446,7 @@
         </div>
     </div>
 
+    <!-- Modal ตั้งค่า Telegram -->
     <div id="settingsModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 modal-content">
             <div class="px-8 py-6 border-b border-gray-100 flex justify-between items-center">
@@ -427,7 +455,6 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            
             <div class="p-8">
                 <form id="settingsForm" onsubmit="saveTelegramSettings(event)" class="space-y-5">
                     <div>
@@ -438,9 +465,7 @@
                         <label class="block text-sm font-medium text-gray-600 mb-1.5">Telegram Chat ID</label>
                         <input type="text" id="tgChatId" class="w-full rounded-2xl border-gray-200 bg-gray-50 px-5 py-3.5 text-gray-800 focus:bg-white border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="-100123456789">
                     </div>
-                    
                     <div id="testResult" class="hidden text-sm text-center py-2 px-3 rounded-xl mt-3"></div>
-
                     <div class="flex flex-col gap-3 pt-2">
                         <button type="button" onclick="testTelegramSettings(this)" class="w-full py-3 rounded-2xl text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 transition-colors border border-blue-100">
                             <i class="fa-solid fa-paper-plane mr-1.5"></i> ทดสอบส่งข้อความทั่วไป
@@ -457,6 +482,7 @@
         </div>
     </div>
 
+    <!-- Modal จัดการแอดมิน -->
     <div id="adminModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl transform scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -467,7 +493,6 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            
             <div class="p-6 overflow-y-auto space-y-5">
                 <div id="adminLoginStateSection" class="bg-pink-50/60 p-4 rounded-2xl border border-pink-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -483,13 +508,11 @@
                         <i class="fa-solid fa-right-from-bracket mr-1"></i> ออกจากระบบ
                     </button>
                 </div>
-
                 <div id="adminLoginFormContainer" class="space-y-4">
                     <div class="text-center pb-1">
                         <h4 class="font-bold text-gray-800 text-base">เข้าสู่ระบบแอดมิน</h4>
                         <p class="text-xs text-gray-400">กรุณากรอกอีเมลและรหัสผ่านเพื่อดำเนินการต่อ</p>
                     </div>
-
                     <form id="adminAuthForm" onsubmit="handleAdminAuth(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">อีเมลแอดมิน (Email)</label>
@@ -497,7 +520,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">รหัสผ่าน (Password)</label>
-                            <input type="password" id="loginAdminPassword" required minlength="6" class="w-full rounded-2xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="รหัสผ่านอย่างน้อย 6 ตัว">
+                            <input type="password" id="loginAdminPassword" required minlength="6" class="w-full rounded-2xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 transition-colors" placeholder="รหัสผ่าน">
                         </div>
                         <button type="submit" id="btnAdminAuthSubmit" class="w-full py-3.5 bg-pink-500 text-white rounded-2xl text-sm font-bold shadow-cute hover:bg-pink-600 transition-all">
                             ยืนยันการเข้าสู่ระบบ
@@ -505,13 +528,13 @@
                     </form>
                 </div>
             </div>
-            
             <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end shrink-0">
                 <button type="button" onclick="closeAdminModal()" class="px-5 py-2.5 rounded-xl text-sm font-medium text-gray-600 bg-white border border-gray-200 hover:bg-gray-100 transition-colors">ปิดหน้าต่าง</button>
             </div>
         </div>
     </div>
 
+    <!-- Modal สร้างฟอร์มข้อความ -->
     <div id="autoFormModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-2xl shadow-2xl transform scale-95 transition-transform duration-300 modal-content flex flex-col max-h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
@@ -522,18 +545,16 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            
             <div class="p-6 overflow-y-auto flex flex-col md:flex-row gap-6">
                 <div class="flex-1 space-y-4">
                     <div class="flex items-center justify-between mb-2">
-                        <label class="block text-sm font-bold text-gray-700">เลือกรุปแบบข้อความ</label>
+                        <label class="block text-sm font-bold text-gray-700">เลือกรูปแบบข้อความ</label>
                         <div class="flex gap-2">
                             <button onclick="editCurrentTemplate()" class="text-xs text-blue-500 hover:text-blue-600 font-medium px-2 py-1 bg-blue-50 rounded-lg">แก้ไข</button>
                             <button onclick="openEditTemplateModal()" class="text-xs text-pink-500 hover:text-pink-600 font-medium px-2 py-1 bg-pink-50 rounded-lg">+ เพิ่มใหม่</button>
                         </div>
                     </div>
                     <select id="templateSelect" onchange="generateFormText()" class="w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 border-2 focus:border-pink-300 focus:ring-0 font-medium mb-4"></select>
-
                     <div class="space-y-3">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -561,7 +582,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="flex-1 flex flex-col">
                     <label class="block text-sm font-bold text-gray-700 mb-2">ผลลัพธ์ (คัดลอกส่งลูกค้าได้เลย)</label>
                     <textarea id="afResult" readonly class="w-full flex-1 min-h-[200px] rounded-2xl border-gray-200 bg-pink-50/30 px-4 py-3 text-gray-800 border-2 focus:border-pink-300 focus:ring-0 resize-none font-sans text-sm"></textarea>
@@ -573,6 +593,7 @@
         </div>
     </div>
 
+    <!-- Modal จัดการรูปแบบเทมเพลต -->
     <div id="editTemplateModal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-[2rem] w-full max-w-lg shadow-2xl transform scale-95 transition-transform duration-300 modal-content p-6 flex flex-col max-h-[90vh]">
             <div class="flex justify-between items-center mb-4 shrink-0">
@@ -614,21 +635,7 @@
         </div>
     </div>
 
-    <div id="deleteConfirmModal" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-[2rem] w-full max-w-sm shadow-2xl transform scale-95 transition-transform duration-300 modal-content p-6 text-center">
-            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-500 text-2xl">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">ลบบัญชีนี้ใช่หรือไม่?</h3>
-            <p class="text-sm text-gray-500 mb-6">ข้อมูลทั้งหมดในบัญชีนี้จะถูกลบและไม่สามารถกู้คืนได้</p>
-            
-            <div class="flex gap-3">
-                <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors">ยกเลิก</button>
-                <button onclick="executeDeleteAccount()" class="flex-1 py-3 rounded-2xl text-sm font-medium text-white bg-red-500 hover:bg-red-600 shadow-soft transition-colors">ลบบัญชี</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Container สำหรับแจ้งเตือน Toast -->
     <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
     <script>
@@ -641,7 +648,7 @@
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             }
         } catch (initErr) {
-            console.warn('Supabase client initialization notice:', initErr);
+            console.warn('Supabase client initialization warning:', initErr);
         }
 
         let currentService = 'netflix';
@@ -651,6 +658,7 @@
         let telegramSettings = { token: '', chatId: '' };
         let collapsedAccounts = new Set();
         let accountIdToDelete = null;
+        let screenToDelete = null;
         let currentAdmin = null;
         
         let formTemplates = [];
@@ -662,7 +670,7 @@
 
         window.addEventListener('DOMContentLoaded', async () => {
             switchService('netflix');
-            loadPublicBrandingCache();
+            loadLocalCache();
             renderDashboard();
 
             try {
@@ -671,6 +679,7 @@
                 setupRealtimeSubscriptions();
                 checkDailyNotifications();
             } catch (err) {
+                console.warn('Network sync notice:', err);
                 renderDashboard();
             }
 
@@ -681,6 +690,15 @@
         });
 
         async function initSupabaseAuth() {
+            const savedAdmin = localStorage.getItem('monali_active_admin');
+            if (savedAdmin) {
+                try {
+                    currentAdmin = JSON.parse(savedAdmin);
+                } catch (e) {
+                    currentAdmin = null;
+                }
+            }
+
             if (!supabaseClient) {
                 checkAdminPermissionsUI();
                 updateAdminStateUI();
@@ -696,7 +714,7 @@
                     await loadData();
                 });
             } catch (e) {
-                console.warn('Auth session check notice');
+                console.warn('Session check warning:', e);
             }
             checkAdminPermissionsUI();
             updateAdminStateUI();
@@ -712,14 +730,17 @@
                             email: session.user.email,
                             name: session.user.user_metadata?.display_name || session.user.email.split('@')[0] || 'ผู้ดูแลระบบ'
                         };
+                        localStorage.setItem('monali_active_admin', JSON.stringify(currentAdmin));
                     } else {
                         currentAdmin = null;
+                        localStorage.removeItem('monali_active_admin');
                     }
                 } catch (err) {
-                    currentAdmin = null;
+                    console.warn('RPC check notice:', err);
                 }
             } else {
                 currentAdmin = null;
+                localStorage.removeItem('monali_active_admin');
             }
             checkAdminPermissionsUI();
             updateAdminStateUI();
@@ -728,8 +749,14 @@
             }
         }
 
-        function loadPublicBrandingCache() {
+        function loadLocalCache() {
             try {
+                const savedNetflix = localStorage.getItem('netflix_accounts');
+                if (savedNetflix) netflixAccounts = JSON.parse(savedNetflix);
+
+                const savedYoutube = localStorage.getItem('youtube_accounts');
+                if (savedYoutube) youtubeAccounts = JSON.parse(savedYoutube);
+
                 const savedLogo = localStorage.getItem('monali_logo');
                 if (savedLogo) document.getElementById('storeLogo').src = savedLogo;
 
@@ -738,6 +765,19 @@
 
                 const savedTpl = localStorage.getItem('monali_templates');
                 formTemplates = savedTpl ? JSON.parse(savedTpl) : [defaultTemplate];
+
+                const savedTg = localStorage.getItem('netflix_tg_settings');
+                if (savedTg) telegramSettings = JSON.parse(savedTg);
+            } catch (e) {
+                console.warn('Cache loading notice:', e);
+            }
+        }
+
+        function saveLocalCache() {
+            try {
+                localStorage.setItem('netflix_accounts', JSON.stringify(netflixAccounts));
+                localStorage.setItem('youtube_accounts', JSON.stringify(youtubeAccounts));
+                localStorage.setItem('monali_templates', JSON.stringify(formTemplates));
             } catch (e) {}
         }
 
@@ -748,34 +788,23 @@
             const submitBtn = document.getElementById('btnAdminAuthSubmit');
             const origText = submitBtn.innerHTML;
             
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> กำลังตรวจสอบ...';
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> กำลังดำเนินการ...';
             submitBtn.disabled = true;
 
             try {
-                if (!supabaseClient) throw new Error('ไม่สามารถเชื่อมต่อระบบฐานข้อมูลได้');
-
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) throw error;
-
-                const { data: isAdmin, error: adminErr } = await supabaseClient.rpc('is_admin');
-                if (adminErr || !isAdmin) {
-                    await supabaseClient.auth.signOut();
-                    throw new Error('บัญชีนี้ไม่มีสิทธิ์เข้าถึงระบบผู้ดูแลร้าน');
+                if (!supabaseClient) {
+                    showToast('ไม่สามารถเชื่อมต่อฐานข้อมูล Supabase ได้ ❌', true);
+                    return;
                 }
 
-                currentAdmin = {
-                    id: data.user.id,
-                    email: data.user.email,
-                    name: data.user.user_metadata?.display_name || data.user.email.split('@')[0] || 'ผู้ดูแลระบบ'
-                };
-                
+                const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+
                 showToast('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับค่ะ ✨');
                 closeAdminModal();
-                updateAdminStateUI();
-                checkAdminPermissionsUI();
                 await loadData();
             } catch (err) {
-                showToast(err.message || 'เข้าสู่ระบบไม่สำเร็จ ข้อมูลไม่ถูกต้อง', true);
+                showToast('เข้าสู่ระบบไม่สำเร็จ: ข้อมูลเข้าสู่ระบบไม่ถูกต้อง ❌', true);
             } finally {
                 submitBtn.innerHTML = origText;
                 submitBtn.disabled = false;
@@ -794,7 +823,9 @@
                     .on('postgres_changes', { event: '*', schema: 'public', table: 'store_branding' }, () => loadData())
                     .on('postgres_changes', { event: '*', schema: 'public', table: 'form_templates' }, () => loadData())
                     .subscribe();
-            } catch (err) {}
+            } catch (err) {
+                console.warn('Realtime subscription notice:', err);
+            }
         }
 
         async function loadData() {
@@ -821,61 +852,56 @@
                     formTemplates = templates;
                 }
 
-                if (currentAdmin) {
-                    const { data: accountsData, error } = await supabaseClient
-                        .from('accounts')
-                        .select(`
+                const { data: accountsData, error } = await supabaseClient
+                    .from('accounts')
+                    .select(`
+                        id,
+                        service_type,
+                        name,
+                        email,
+                        password,
+                        account_expire_date,
+                        screens (
                             id,
-                            service_type,
-                            name,
-                            email,
-                            password,
-                            account_expire_date,
-                            screens (
-                                id,
-                                screen_index,
-                                status,
-                                pin,
-                                expire_date,
-                                notes
-                            )
-                        `)
-                        .order('created_at', { ascending: false });
+                            screen_index,
+                            status,
+                            pin,
+                            expire_date,
+                            notes
+                        )
+                    `)
+                    .order('created_at', { ascending: false });
 
-                    if (!error && accountsData) {
-                        const mappedAccounts = accountsData.map(acc => {
-                            const rawScreens = acc.screens || [];
-                            const screens = [];
-                            for (let i = 1; i <= 5; i++) {
-                                const found = rawScreens.find(s => s.screen_index === i);
-                                screens.push({
-                                    id: found?.id || null,
-                                    screen_index: i,
-                                    status: found ? found.status : 'available',
-                                    expireDate: found?.expire_date || '',
-                                    pin: found?.pin || '',
-                                    notes: found?.notes || ''
-                                });
-                            }
-                            return {
-                                id: acc.id,
-                                service_type: acc.service_type,
-                                name: acc.name,
-                                email: acc.email,
-                                password: acc.password,
-                                accountExpireDate: acc.account_expire_date || '',
-                                screens: screens
-                            };
-                        });
+                if (!error && accountsData) {
+                    const mappedAccounts = accountsData.map(acc => {
+                        const rawScreens = acc.screens || [];
+                        rawScreens.sort((a, b) => a.screen_index - b.screen_index);
+                        const screens = rawScreens.map(s => ({
+                            id: s.id,
+                            screen_index: s.screen_index,
+                            status: s.status || 'available',
+                            expireDate: s.expire_date || '',
+                            pin: s.pin || '',
+                            notes: s.notes || ''
+                        }));
 
-                        netflixAccounts = mappedAccounts.filter(a => a.service_type === 'netflix');
-                        youtubeAccounts = mappedAccounts.filter(a => a.service_type === 'youtube');
-                    }
-                } else {
-                    netflixAccounts = [];
-                    youtubeAccounts = [];
+                        return {
+                            id: acc.id,
+                            service_type: acc.service_type,
+                            name: acc.name,
+                            email: acc.email,
+                            password: acc.password,
+                            accountExpireDate: acc.account_expire_date || '',
+                            screens: screens
+                        };
+                    });
+
+                    netflixAccounts = mappedAccounts.filter(a => a.service_type === 'netflix');
+                    youtubeAccounts = mappedAccounts.filter(a => a.service_type === 'youtube');
+                    saveLocalCache();
                 }
             } catch (err) {
+                console.warn('Network fetch error, fallback to local storage:', err);
             } finally {
                 if (loadingEl) loadingEl.classList.add('hidden');
                 renderDashboard();
@@ -892,7 +918,9 @@
                         chatId: data.chat_id || ''
                     };
                 }
-            } catch (e) {}
+            } catch (e) {
+                console.warn('Failed to load telegram settings:', e);
+            }
         }
 
         function escapeHTML(str) {
@@ -1056,26 +1084,26 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-1 shrink-0 bg-gray-50 rounded-full p-1 border border-gray-100">
-                                <button onclick="toggleScreens('${escapeJS(account.id)}')" class="text-gray-400 hover:text-pink-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ย่อ/ขยาย">
-                                    <i id="icon-toggle-${escapeHTML(account.id)}" class="${iconClass}"></i>
+                                <button onclick="toggleScreens('${account.id}')" class="text-gray-400 hover:text-pink-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ย่อ/ขยาย">
+                                    <i id="icon-toggle-${account.id}" class="${iconClass}"></i>
                                 </button>
-                                <button onclick="openEditAccountModal('${escapeJS(account.id)}')" class="text-gray-400 hover:text-blue-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="แก้ไขบัญชี">
+                                <button onclick="openEditAccountModal('${account.id}')" class="text-gray-400 hover:text-blue-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="แก้ไขบัญชี">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button onclick="confirmDeleteAccount('${escapeJS(account.id)}')" class="text-gray-400 hover:text-red-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ลบบัญชี">
+                                <button onclick="confirmDeleteAccount('${account.id}')" class="text-gray-400 hover:text-red-500 hover:bg-white w-9 h-9 rounded-full flex items-center justify-center transition-all shadow-sm" title="ลบบัญชี">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div id="screens-container-${escapeHTML(account.id)}" class="${containerClass}">
+                        <div id="screens-container-${account.id}" class="${containerClass}">
                             <div class="flex flex-col gap-2">
                     `;
 
                     account.screens.forEach((screen, index) => {
                         const effStatus = getEffectiveScreenStatus(screen);
                         let statusConfig = getStatusConfig(effStatus, isNetflix);
-                        let itemTitle = isNetflix ? `จอ ${index + 1}` : `สมาชิก ${index + 1}`;
+                        let itemTitle = isNetflix ? `จอ ${screen.screen_index}` : `สมาชิก ${screen.screen_index}`;
                         
                         let detailsHtml = '';
                         if (effStatus !== 'available') {
@@ -1109,10 +1137,21 @@
                                         <button onclick="openEditScreenModal('${escapeJS(account.id)}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300 flex items-center justify-center transition-colors shadow-sm" title="แก้ไข">
                                             <i class="fa-solid fa-pen text-xs"></i>
                                         </button>
+                                        <button onclick="confirmDeleteScreen('${escapeJS(account.id)}', ${index})" class="w-8 h-8 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-300 flex items-center justify-center transition-colors shadow-sm" title="ลบจอ/สมาชิกนี้">
+                                            <i class="fa-solid fa-trash-can text-xs"></i>
+                                        </button>
                                     </div>
                                 </div>
                         `;
                     });
+
+                    if (account.screens.length < 5) {
+                        html += `
+                            <button onclick="handleAddScreen('${escapeJS(account.id)}')" class="w-full py-2.5 mt-1 border border-dashed border-pink-200 hover:border-pink-400 text-pink-500 hover:bg-pink-50/50 rounded-2xl text-xs font-medium transition-all flex items-center justify-center gap-1.5 bg-white shadow-soft">
+                                <i class="fa-solid fa-plus text-xs"></i> เพิ่ม${isNetflix ? 'จอ' : 'สมาชิก'}
+                            </button>
+                        `;
+                    }
 
                     html += `
                             </div>
@@ -1171,12 +1210,12 @@
             const icon = document.getElementById(`icon-toggle-${accountId}`);
             if (collapsedAccounts.has(accountId)) {
                 collapsedAccounts.delete(accountId);
-                if (container) container.classList.remove('hidden');
-                if (icon) icon.className = 'fa-solid fa-chevron-up';
+                container.classList.remove('hidden');
+                icon.className = 'fa-solid fa-chevron-up';
             } else {
                 collapsedAccounts.add(accountId);
-                if (container) container.classList.add('hidden');
-                if (icon) icon.className = 'fa-solid fa-chevron-down';
+                container.classList.add('hidden');
+                icon.className = 'fa-solid fa-chevron-down';
             }
         }
 
@@ -1223,15 +1262,16 @@
         function openAutoFormForScreen(accountId, screenIndex) {
             const activeData = getActiveData();
             const acc = activeData.find(a => a.id === accountId);
-            if (acc) {
+            if (acc && acc.screens[screenIndex]) {
+                const targetScreen = acc.screens[screenIndex];
                 const isNet = currentService === 'netflix';
-                const itemTitle = isNet ? `จอ ${screenIndex + 1}` : `สมาชิก ${screenIndex + 1}`;
+                const itemTitle = isNet ? `จอ ${targetScreen.screen_index}` : `สมาชิก ${targetScreen.screen_index}`;
                 openAutoFormModal({
                     email: acc.email,
                     password: acc.password,
                     screen: itemTitle,
-                    pin: acc.screens[screenIndex].pin || '',
-                    expire: acc.screens[screenIndex].expireDate || ''
+                    pin: targetScreen.pin || '',
+                    expire: targetScreen.expireDate || ''
                 });
             }
         }
@@ -1252,7 +1292,7 @@
                 acc.screens.forEach((screen, index) => {
                     if (getEffectiveScreenStatus(screen) === 'available') {
                         count++;
-                        const itemTitle = isNetflix ? `จอ ${index + 1}` : `สมาชิก ${index + 1}`;
+                        const itemTitle = isNetflix ? `จอ ${screen.screen_index}` : `สมาชิก ${screen.screen_index}`;
                         html += `
                             <div class="bg-white p-4 sm:p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${hoverBorderClass} transition-colors group">
                                 <div class="flex-1 min-w-0">
@@ -1318,7 +1358,7 @@
                 acc.screens.forEach((screen, index) => {
                     if (getEffectiveScreenStatus(screen) === 'kick') {
                         count++;
-                        const itemTitle = isNetflix ? `จอ ${index + 1}` : `สมาชิก ${index + 1}`;
+                        const itemTitle = isNetflix ? `จอ ${screen.screen_index}` : `สมาชิก ${screen.screen_index}`;
                         html += `
                             <div class="bg-white p-4 sm:p-5 rounded-2xl border border-orange-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div class="flex-1 min-w-0">
@@ -1445,47 +1485,45 @@
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังบันทึก...';
             btn.disabled = true;
 
-            const name = document.getElementById('accountName').value.trim();
-            const email = document.getElementById('accountEmail').value.trim();
-            const password = document.getElementById('accountPassword').value.trim();
-            const accountExpireDate = document.getElementById('accountExpireDate').value || null;
+            const nameVal = document.getElementById('accountName').value.trim();
+            const emailVal = document.getElementById('accountEmail').value.trim();
+            const passVal = document.getElementById('accountPassword').value.trim();
+            const expDateVal = document.getElementById('accountExpireDate').value || null;
 
             try {
-                if (!supabaseClient) throw new Error('ระบบไม่ได้เชื่อมต่อกับ Supabase');
+                if (supabaseClient) {
+                    const { data: createdAcc, error: accErr } = await supabaseClient
+                        .from('accounts')
+                        .insert({
+                            service_type: currentService,
+                            name: nameVal,
+                            email: emailVal,
+                            password: passVal,
+                            account_expire_date: expDateVal
+                        })
+                        .select()
+                        .single();
 
-                const newAcc = {
-                    service_type: currentService,
-                    name,
-                    email,
-                    password,
-                    account_expire_date: accountExpireDate
-                };
+                    if (accErr) throw accErr;
 
-                const { data: createdAcc, error: accErr } = await supabaseClient
-                    .from('accounts')
-                    .insert(newAcc)
-                    .select()
-                    .single();
-
-                if (accErr) throw accErr;
-
-                if (createdAcc) {
-                    const screensToInsert = Array.from({ length: 5 }, (_, i) => ({
-                        account_id: createdAcc.id,
-                        screen_index: i + 1,
-                        status: 'available',
-                        pin: '',
-                        expire_date: null,
-                        notes: ''
-                    }));
-                    await supabaseClient.from('screens').insert(screensToInsert);
+                    if (createdAcc) {
+                        const screensToInsert = Array.from({ length: 5 }, (_, i) => ({
+                            account_id: createdAcc.id,
+                            screen_index: i + 1,
+                            status: 'available',
+                            pin: '',
+                            expire_date: null,
+                            notes: ''
+                        }));
+                        await supabaseClient.from('screens').insert(screensToInsert);
+                    }
                 }
 
                 await loadData();
                 closeAddAccountModal();
                 showToast('เพิ่มข้อมูลใหม่เรียบร้อยแล้วค่ะ ✨');
             } catch (err) {
-                showToast('ไม่สามารถบันทึกได้: ' + (err.message || 'ข้อผิดพลาดระบบ'), true);
+                showToast('บันทึกไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -1513,18 +1551,18 @@
             if (!requireAdminAuth()) return;
 
             const id = document.getElementById('editAccId').value;
-            const name = document.getElementById('editAccName').value.trim();
-            const email = document.getElementById('editAccEmail').value.trim();
-            const password = document.getElementById('editAccPassword').value.trim();
-            const accountExpireDate = document.getElementById('editAccExpireDate').value || null;
+            const nameVal = document.getElementById('editAccName').value.trim();
+            const emailVal = document.getElementById('editAccEmail').value.trim();
+            const passVal = document.getElementById('editAccPassword').value.trim();
+            const expDateVal = document.getElementById('editAccExpireDate').value || null;
 
             try {
                 if (supabaseClient) {
                     const { error } = await supabaseClient.from('accounts').update({
-                        name,
-                        email,
-                        password,
-                        account_expire_date: accountExpireDate
+                        name: nameVal,
+                        email: emailVal,
+                        password: passVal,
+                        account_expire_date: expDateVal
                     }).eq('id', id);
                     if (error) throw error;
                 }
@@ -1541,11 +1579,11 @@
             if (!requireAdminAuth()) return;
             const activeData = getActiveData();
             const account = activeData.find(a => a.id === accountId);
-            if (!account) return;
+            if (!account || !account.screens[screenIndex]) return;
             const screen = account.screens[screenIndex];
 
             const isNet = currentService === 'netflix';
-            const itemTitle = isNet ? `จอ ${screenIndex + 1}` : `สมาชิก ${screenIndex + 1}`;
+            const itemTitle = isNet ? `จอ ${screen.screen_index}` : `สมาชิก ${screen.screen_index}`;
 
             document.getElementById('editAccountId').value = accountId;
             document.getElementById('editScreenIndex').value = screenIndex;
@@ -1574,6 +1612,11 @@
 
             const accountId = document.getElementById('editAccountId').value;
             const screenIndex = parseInt(document.getElementById('editScreenIndex').value);
+            const activeData = getActiveData();
+            const account = activeData.find(a => a.id === accountId);
+            if (!account || !account.screens[screenIndex]) return;
+
+            const screen = account.screens[screenIndex];
             const selectedRadio = document.querySelector('input[name="screenStatus"]:checked');
             
             if(!selectedRadio) {
@@ -1589,8 +1632,9 @@
             try {
                 if (supabaseClient) {
                     const { error } = await supabaseClient.from('screens').upsert({
+                        ...(screen.id ? { id: screen.id } : {}),
                         account_id: accountId,
-                        screen_index: screenIndex + 1,
+                        screen_index: screen.screen_index,
                         status: status,
                         expire_date: expireDate,
                         pin: pin,
@@ -1601,9 +1645,91 @@
 
                 await loadData();
                 closeEditScreenModal();
-                showToast('บันทึกข้อมูลจอเรียบร้อยแล้วค่ะ 💖');
+                showToast('บันทึกข้อมูลเรียบร้อยแล้วค่ะ 💖');
             } catch (err) {
                 showToast('บันทึกไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
+            }
+        }
+
+        function confirmDeleteScreen(accountId, screenIndex) {
+            if (!requireAdminAuth()) return;
+            const activeData = getActiveData();
+            const account = activeData.find(a => a.id === accountId);
+            if (!account || !account.screens[screenIndex]) return;
+            const screen = account.screens[screenIndex];
+
+            const isNet = currentService === 'netflix';
+            const label = `${isNet ? 'จอ' : 'สมาชิก'} ${screen.screen_index}`;
+            screenToDelete = {
+                accountId,
+                screenIndex,
+                screenId: screen.id,
+                screenLabel: label
+            };
+
+            const desc = document.getElementById('deleteScreenDesc');
+            if (desc) {
+                desc.textContent = `ต้องการลบ ${label} ของ "${account.name}" ใช่หรือไม่? ข้อมูลของจอนี้จะถูกลบออกจากระบบ`;
+            }
+            animateModalOpen('deleteScreenModal');
+        }
+
+        function closeDeleteScreenModal() {
+            screenToDelete = null;
+            animateModalClose('deleteScreenModal');
+        }
+
+        async function executeDeleteScreen() {
+            if (!requireAdminAuth() || !screenToDelete) return;
+            const { screenId, screenLabel } = screenToDelete;
+
+            try {
+                if (supabaseClient && screenId) {
+                    const { error } = await supabaseClient.from('screens').delete().eq('id', screenId);
+                    if (error) throw error;
+                }
+                await loadData();
+                closeDeleteScreenModal();
+                showToast(`ลบ ${screenLabel} เรียบร้อยแล้วค่ะ 🗑️`);
+            } catch (err) {
+                showToast('ลบไม่สำเร็จ: ' + (err.message || 'สิทธิ์ไม่เพียงพอ'), true);
+            }
+        }
+
+        async function handleAddScreen(accountId) {
+            if (!requireAdminAuth()) return;
+            const activeData = getActiveData();
+            const account = activeData.find(a => a.id === accountId);
+            if (!account) return;
+
+            const existingIndices = new Set(account.screens.map(s => s.screen_index));
+            let nextIndex = 1;
+            while (existingIndices.has(nextIndex) && nextIndex <= 5) {
+                nextIndex++;
+            }
+
+            if (nextIndex > 5) {
+                showToast('จำนวนจอเต็มแล้ว (สูงสุด 5 จอ) ❌', true);
+                return;
+            }
+
+            try {
+                if (supabaseClient) {
+                    const { error } = await supabaseClient.from('screens').insert({
+                        account_id: accountId,
+                        screen_index: nextIndex,
+                        status: 'available',
+                        pin: '',
+                        expire_date: null,
+                        notes: ''
+                    });
+                    if (error) throw error;
+                }
+                await loadData();
+                const isNet = currentService === 'netflix';
+                showToast(`เพิ่ม ${isNet ? 'จอ' : 'สมาชิก'} ${nextIndex} เรียบร้อยแล้วค่ะ ✨`);
+            } catch (err) {
+                showToast('ไม่สามารถเพิ่มจอได้: ' + (err.message || 'ข้อผิดพลาดระบบ'), true);
             }
         }
 
@@ -1624,7 +1750,6 @@
                     const { error } = await supabaseClient.from('accounts').delete().eq('id', accountIdToDelete);
                     if (error) throw error;
                 }
-
                 collapsedAccounts.delete(accountIdToDelete);
                 await loadData();
                 closeDeleteModal();
@@ -1652,6 +1777,7 @@
 
             telegramSettings.token = token;
             telegramSettings.chatId = chatId;
+            localStorage.setItem('netflix_tg_settings', JSON.stringify(telegramSettings));
 
             if (supabaseClient) {
                 try {
@@ -1777,12 +1903,13 @@
                 data.forEach(acc => {
                     acc.screens.forEach((screen, index) => {
                         const effStatus = getEffectiveScreenStatus(screen);
+                        const sLabel = `${itemLabel} ${screen.screen_index}`;
                         if (effStatus === 'kick' && screen.expireDate) {
                             const parsedExp = parseLocalDate(screen.expireDate);
                             if (parsedExp) {
                                 const exp = parsedExp.setHours(0,0,0,0);
                                 if (exp <= today.getTime()) {
-                                    dueList.push(`- ${escapeHTML(acc.name)} ${itemLabel} ${index+1} (หมดแล้ว)`);
+                                    dueList.push(`- ${escapeHTML(acc.name)} ${sLabel} (หมดแล้ว)`);
                                 }
                             }
                         } else if (effStatus === 'sold' && screen.expireDate) {
@@ -1790,7 +1917,7 @@
                             if (parsedExp) {
                                 const exp = parsedExp.setHours(0,0,0,0);
                                 if (exp === tomorrow.getTime()) {
-                                    dueList.push(`- ${escapeHTML(acc.name)} ${itemLabel} ${index+1} (หมดพรุ่งนี้)`);
+                                    dueList.push(`- ${escapeHTML(acc.name)} ${sLabel} (หมดพรุ่งนี้)`);
                                 }
                             }
                         }
@@ -1857,11 +1984,9 @@
                 } catch(e) {}
             }
             currentAdmin = null;
-            netflixAccounts = [];
-            youtubeAccounts = [];
+            localStorage.removeItem('monali_active_admin');
             updateAdminStateUI();
             checkAdminPermissionsUI();
-            renderDashboard();
             showToast('ออกจากระบบเรียบร้อยแล้ว 🔒');
         }
 
@@ -1979,7 +2104,7 @@
                 } catch (e) {}
             }
 
-            localStorage.setItem('monali_templates', JSON.stringify(formTemplates));
+            saveLocalCache();
             updateTemplateDropdown();
             document.getElementById('templateSelect').value = targetId;
             generateFormText();
@@ -2000,7 +2125,7 @@
                 } catch(e) {}
             }
 
-            localStorage.setItem('monali_templates', JSON.stringify(formTemplates));
+            saveLocalCache();
             updateTemplateDropdown();
             generateFormText();
             closeEditTemplateModal();
@@ -2017,17 +2142,6 @@
         }
 
         function copyText(text) {
-            if (!text) return;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('คัดลอกข้อความแล้ว ✨');
-                }).catch(() => fallbackCopy(text));
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
             const el = document.createElement('textarea');
             el.value = text;
             el.setAttribute('readonly', '');
@@ -2048,22 +2162,12 @@
             const iconClass = isError ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-check';
             
             toast.className = `bg-white border-2 ${borderCol} text-gray-700 px-5 py-3.5 rounded-2xl shadow-cute flex items-center gap-3 toast-enter pointer-events-auto`;
-            toast.innerHTML = `<div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center shrink-0"><i class="${iconClass}"></i></div><span class="font-medium text-sm pr-2">${escapeHTML(message)}</span>`;
+            toast.innerHTML = `<div class="w-8 h-8 rounded-full ${iconBg} flex items-center justify-center shrink-0"><i class="${iconClass}"></i></div><span class="font-medium text-sm pr-2">${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.classList.replace('toast-enter', 'toast-exit');
                 setTimeout(() => container.contains(toast) && container.removeChild(toast), 300);
             }, 3500);
-        }
-
-        function triggerLogoUpload() {
-            if (!requireAdminAuth()) return;
-            document.getElementById('logoInput').click();
-        }
-
-        function triggerBannerUpload() {
-            if (!requireAdminAuth()) return;
-            document.getElementById('bannerInput').click();
         }
 
         function handleLogoUpload(event) {
@@ -2077,7 +2181,7 @@
                 return;
             }
             if (file.size > 5 * 1024 * 1024) {
-                showToast('ขนาดรูปภาพต้องไม่เกิน 5MB ❌', true);
+                showToast('ขนาดไฟล์ต้องไม่เกิน 5 MB ❌', true);
                 event.target.value = '';
                 return;
             }
@@ -2121,7 +2225,7 @@
                 return;
             }
             if (file.size > 5 * 1024 * 1024) {
-                showToast('ขนาดรูปภาพต้องไม่เกิน 5MB ❌', true);
+                showToast('ขนาดไฟล์ต้องไม่เกิน 5 MB ❌', true);
                 event.target.value = '';
                 return;
             }
